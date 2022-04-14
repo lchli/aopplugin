@@ -39,9 +39,9 @@ public class AopVisitor extends ClassVisitor {
      if(className.contains("AopUtil")){
             return old;
         }
-        if(!className.contains("backgrounderaser")){
-            return old;
-        }
+//        if(!className.contains("backgrounderaser")){
+//            return old;
+//        }
 
         if (className.contains("thinkingdata")||className.contains("kt")
             ||className.contains("org.jetbrains.kotlin")
