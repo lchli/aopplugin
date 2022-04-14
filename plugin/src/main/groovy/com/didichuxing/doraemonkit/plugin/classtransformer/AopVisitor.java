@@ -49,6 +49,10 @@ public class AopVisitor extends ClassVisitor {
             return old;
         }
 
+        if(className.endsWith(name)){
+            return old;
+        }
+
       return new com.didichuxing.doraemonkit.plugin.classtransformer.MyLocalVariablesSorter(api,access,descriptor,old);
 
 
