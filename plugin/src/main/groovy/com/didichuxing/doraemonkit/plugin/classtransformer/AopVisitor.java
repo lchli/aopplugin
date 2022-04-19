@@ -56,7 +56,7 @@ public class AopVisitor extends ClassVisitor {
             System.out.println("mname:"+name);
         }
 
-        boolean isconstrutor=className.endsWith(name);
+        boolean isconstrutor=name.equals("<init>");
 
       return new com.didichuxing.doraemonkit.plugin.classtransformer.MyLocalVariablesSorter(api,access,descriptor,old,isconstrutor);
 
