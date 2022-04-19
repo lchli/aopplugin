@@ -28,6 +28,10 @@ public class AopVisitor extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
          MethodVisitor old = super.visitMethod(access, name, descriptor, signature, exceptions);
 
+        if(!className.endsWith("Tv")){
+            return old;
+        }
+
         if(className.contains("AopVisitor")){
             return old;
         }
