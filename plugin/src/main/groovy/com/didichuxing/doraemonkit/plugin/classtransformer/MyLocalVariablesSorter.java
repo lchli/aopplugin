@@ -8,6 +8,7 @@ import org.objectweb.asm.commons.LocalVariablesSorter;
 public class MyLocalVariablesSorter extends LocalVariablesSorter {
 
     private String superName;
+    private String className;
     private boolean isconstructor;
     private boolean issuperInjected = false;
 
@@ -16,10 +17,11 @@ public class MyLocalVariablesSorter extends LocalVariablesSorter {
     }
 
     public MyLocalVariablesSorter(int api, int access, String descriptor, MethodVisitor methodVisitor, boolean isconstructor,
-                                  String superName) {
+                                  String superName,String className) {
         super(api, access, descriptor, methodVisitor);
         this.isconstructor = isconstructor;
         this.superName = superName;
+        this.className = className;
     }
 
 
@@ -40,7 +42,7 @@ public class MyLocalVariablesSorter extends LocalVariablesSorter {
 
         if (isconstructor) {
             if (opcode == Opcodes.INVOKESPECIAL && !issuperInjected &&
-                    name.equals("<init>") && owner.equals(superName)) {
+                    name.equals("<init>") && (owner.equals(superName)||owner.equals(className))) {
                 super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
                 mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
                 time = newLocal(Type.LONG_TYPE); // 新建一个局部变量
