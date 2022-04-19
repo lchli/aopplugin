@@ -7,12 +7,16 @@ import org.objectweb.asm.commons.LocalVariablesSorter;
 
 public class MyLocalVariablesSorter extends LocalVariablesSorter {
 
-     MyLocalVariablesSorter(int access, String descriptor, MethodVisitor methodVisitor) {
+    private  boolean isconstructor;
+    private  boolean issuperInjected=false;
+
+    MyLocalVariablesSorter(int access, String descriptor, MethodVisitor methodVisitor) {
         super(access, descriptor, methodVisitor);
     }
 
-    public MyLocalVariablesSorter(int api, int access, String descriptor, MethodVisitor methodVisitor) {
+    public MyLocalVariablesSorter(int api, int access, String descriptor, MethodVisitor methodVisitor,boolean isconstructor) {
         super(api, access, descriptor, methodVisitor);
+        this.isconstructor=isconstructor;
     }
 
 
@@ -22,14 +26,27 @@ public class MyLocalVariablesSorter extends LocalVariablesSorter {
     @Override
     public void visitCode() {
         super.visitCode();
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
-        time = newLocal(Type.LONG_TYPE); // 新建一个局部变量
-        mv.visitVarInsn(Opcodes.LSTORE, time);
+        if(!isconstructor) {
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
+            time = newLocal(Type.LONG_TYPE); // 新建一个局部变量
+            mv.visitVarInsn(Opcodes.LSTORE, time);
+        }
     }
 
 
     @Override
     public void visitInsn(int opcode) {
+        if(isconstructor) {
+            if(opcode==Opcodes.ACC_SUPER&&!issuperInjected){
+                super.visitInsn(opcode);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
+                time = newLocal(Type.LONG_TYPE); // 新建一个局部变量
+                mv.visitVarInsn(Opcodes.LSTORE, time);
+                issuperInjected=true;
+                return;
+            }
+
+        }
 //        if(opcode==Opcodes.ACC_SUPER){
 //           // super.visitInsn(opcode);
 //
