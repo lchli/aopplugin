@@ -5,6 +5,7 @@ import org.objectweb.asm.MethodVisitor;
 
 public class AopVisitor extends ClassVisitor {
     private String className;
+    private String superName;
 
     public AopVisitor(int api) {
         super(api);
@@ -18,6 +19,7 @@ public class AopVisitor extends ClassVisitor {
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces);
         className=name;
+        this.superName=superName;
 
         System.out.println("className:"+name);
     }
@@ -58,7 +60,7 @@ public class AopVisitor extends ClassVisitor {
 
         boolean isconstrutor=name.equals("<init>");
 
-      return new com.didichuxing.doraemonkit.plugin.classtransformer.MyLocalVariablesSorter(api,access,descriptor,old,isconstrutor);
+      return new com.didichuxing.doraemonkit.plugin.classtransformer.MyLocalVariablesSorter(api,access,descriptor,old,isconstrutor,superName);
 
 
     }

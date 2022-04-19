@@ -7,59 +7,59 @@ import org.objectweb.asm.commons.LocalVariablesSorter;
 
 public class MyLocalVariablesSorter extends LocalVariablesSorter {
 
-    private  boolean isconstructor;
-    private  boolean issuperInjected=false;
+    private String superName;
+    private boolean isconstructor;
+    private boolean issuperInjected = false;
 
     MyLocalVariablesSorter(int access, String descriptor, MethodVisitor methodVisitor) {
         super(access, descriptor, methodVisitor);
     }
 
-    public MyLocalVariablesSorter(int api, int access, String descriptor, MethodVisitor methodVisitor,boolean isconstructor) {
+    public MyLocalVariablesSorter(int api, int access, String descriptor, MethodVisitor methodVisitor, boolean isconstructor,
+                                  String superName) {
         super(api, access, descriptor, methodVisitor);
-        this.isconstructor=isconstructor;
+        this.isconstructor = isconstructor;
+        this.superName = superName;
     }
 
 
-
-    private int time=-1;
+    private int time = -1;
 
     @Override
     public void visitCode() {
         super.visitCode();
-        if(!isconstructor) {
+        if (!isconstructor) {
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
             time = newLocal(Type.LONG_TYPE); // 新建一个局部变量
             mv.visitVarInsn(Opcodes.LSTORE, time);
         }
     }
 
-
     @Override
-    public void visitInsn(int opcode) {
-        if(isconstructor) {
-            if(opcode==Opcodes.INVOKESPECIAL&&!issuperInjected){
-                super.visitInsn(opcode);
+    public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+
+        if (isconstructor) {
+            if (opcode == Opcodes.INVOKESPECIAL && !issuperInjected &&
+                    name.equals("<init>") && owner.equals(superName)) {
+                super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
                 mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
                 time = newLocal(Type.LONG_TYPE); // 新建一个局部变量
                 mv.visitVarInsn(Opcodes.LSTORE, time);
-                issuperInjected=true;
+                issuperInjected = true;
                 return;
             }
 
         }
-//        if(opcode==Opcodes.ACC_SUPER){
-//           // super.visitInsn(opcode);
-//
-//            mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
-//            time = newLocal(Type.LONG_TYPE); // 新建一个局部变量
-//            mv.visitVarInsn(Opcodes.LSTORE, time);
-//
-//           //
-//
-//            return;
-//        }
 
-        if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)|| Opcodes.ATHROW == opcode) {
+
+        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+    }
+
+    @Override
+    public void visitInsn(int opcode) {
+
+
+        if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN) || Opcodes.ATHROW == opcode) {
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
             mv.visitVarInsn(Opcodes.LLOAD, time);
             mv.visitInsn(Opcodes.LSUB);
