@@ -49,8 +49,11 @@ public class AopVisitor extends ClassVisitor {
             return old;
         }
 
-        if(className.endsWith(name)){
-            return old;
+//        if(className.endsWith(name)){
+//            return old;
+//        }
+        if(className.contains("Tv")){
+            System.out.println("mname:"+name);
         }
 
         boolean isconstrutor=className.endsWith(name);
