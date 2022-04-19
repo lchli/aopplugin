@@ -37,7 +37,7 @@ public class MyLocalVariablesSorter extends LocalVariablesSorter {
     @Override
     public void visitInsn(int opcode) {
         if(isconstructor) {
-            if(opcode==Opcodes.ACC_SUPER&&!issuperInjected){
+            if(opcode==Opcodes.INVOKESPECIAL&&!issuperInjected){
                 super.visitInsn(opcode);
                 mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
                 time = newLocal(Type.LONG_TYPE); // 新建一个局部变量
