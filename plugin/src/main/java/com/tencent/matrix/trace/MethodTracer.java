@@ -149,7 +149,7 @@ public class MethodTracer {
                         for(String aopClassName:aopVisitors){
                             Class<?> aopClass = classLoader.loadClass(aopClassName);
                             Method modifyClassBytesMethod = aopClass.getMethod("modifyClassBytes", byte[].class);
-                            sourceBytes = (byte[]) modifyClassBytesMethod.invoke(aopClass.getNestHost(),sourceBytes);
+                            sourceBytes = (byte[]) modifyClassBytesMethod.invoke(aopClass.newInstance(),sourceBytes);
                         }
                     }
 
@@ -228,7 +228,7 @@ public class MethodTracer {
                         for(String aopClassName:aopVisitors){
                             Class<?> aopClass = classLoader.loadClass(aopClassName);
                             Method modifyClassBytesMethod = aopClass.getMethod("modifyClassBytes", byte[].class);
-                            sourceBytes = (byte[]) modifyClassBytesMethod.invoke(aopClass.getNestHost(),sourceBytes);
+                            sourceBytes = (byte[]) modifyClassBytesMethod.invoke(aopClass.newInstance(),sourceBytes);
                         }
                     }
 
