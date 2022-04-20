@@ -17,7 +17,7 @@ public class Log {
 
     private static LogImp debugLog = new LogImp() {
 
-        private int level = LOG_LEVEL_INFO;
+        private int level = LOG_LEVEL_VERBOSE;
 
         @Override
         public void v(final String tag, final String msg, final Object... obj) {
@@ -79,7 +79,7 @@ public class Log {
     };
 
     private static LogImp logImp = debugLog;
-    private static int level = LOG_LEVEL_INFO;
+    private static int level = LOG_LEVEL_DEBUG;
 
     private Log() {
     }

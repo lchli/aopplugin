@@ -63,7 +63,7 @@ class MatrixTraceCompat : ITraceSwitchListener {
     private fun legacyInject(appExtension: AppExtension,
                              project: Project,
                              extension: MatrixTraceExtension) {
-
+        Log.e("MatrixTraceCompat", "legacyInject=========")
 //        project.afterEvaluate {
 //
 //            if (!extension.isEnable) {

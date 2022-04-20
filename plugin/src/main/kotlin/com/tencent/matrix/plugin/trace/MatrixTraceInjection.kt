@@ -71,9 +71,11 @@ class MatrixTraceInjection : ITraceSwitchListener {
         appExtension.applicationVariants.all { variant ->
             if (injectTaskOrTransform(project, extension, variant) == InjectionMode.TransformInjection) {
                 // Inject transform
+                Log.i("MatrixTraceInjection", "transformInjection.")
                 transformInjection()
             } else {
-                // Inject task
+                // Inject tas
+                Log.i("MatrixTraceInjection", "taskInjection.")
                 taskInjection(project, extension, variant)
             }
         }

@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentHashMap
 class MatrixTraceTransform(
         private val project: Project,
         private val extension: MatrixTraceExtension,
-        private var transparent: Boolean = true
+        private var transparent: Boolean = false
 ) : Transform() {
 
     companion object {
@@ -44,7 +44,7 @@ class MatrixTraceTransform(
     }
 
     fun disable() {
-        transparent = true
+        transparent = false
     }
 
     override fun getName(): String {
