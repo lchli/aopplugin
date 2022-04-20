@@ -6,6 +6,8 @@ com/tencent/matrix/javalib/util/Util.java
  com.tencent.matrix.javalib.util.Util
 com/tencent/matrix/trace/item/TraceMethod.java
  com.tencent.matrix.trace.item.TraceMethod
+com/tencent/matrix/trace/extension/MatrixExtension.java
+ com.tencent.matrix.trace.extension.MatrixExtension
 com/tencent/matrix/javalib/util/IOUtil.java
  com.tencent.matrix.javalib.util.IOUtil
 com/tencent/matrix/shrinker/ProguardStringBuilder.java

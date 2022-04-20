@@ -17,9 +17,9 @@
 package com.tencent.matrix.plugin
 
 import com.android.build.gradle.AppExtension
-import com.tencent.matrix.plugin.extension.MatrixExtension
 import com.tencent.matrix.plugin.extension.MatrixRemoveUnusedResExtension
 import com.tencent.matrix.plugin.task.MatrixTasksManager
+import com.tencent.matrix.trace.extension.MatrixExtension
 import com.tencent.matrix.trace.extension.MatrixTraceExtension
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
@@ -29,7 +29,7 @@ import org.gradle.api.plugins.ExtensionAware
 class MatrixPlugin : Plugin<Project> {
     companion object {
         const val TAG = "Matrix.Plugin"
-        lateinit var mMatrixExtension:MatrixExtension
+        lateinit var mMatrixExtension: MatrixExtension
     }
 
     override fun apply(project: Project) {

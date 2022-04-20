@@ -144,8 +144,8 @@ public class MethodTracer {
 
                 if (MethodCollector.isNeedTraceFile(classFile.getName())) {
 
-                    ArrayList<String> aopVisitors = MatrixPlugin.mMatrixExtension.getAopVisitors();
-                    if(aopVisitors!=null&&!aopVisitors.isEmpty()){
+                    String[] aopVisitors = MatrixPlugin.mMatrixExtension.aopVisitors;
+                    if(aopVisitors!=null&&aopVisitors.length>0){
                         for(String aopClassName:aopVisitors){
                             Class<?> aopClass = classLoader.loadClass(aopClassName);
                             Method modifyClassBytesMethod = aopClass.getMethod("modifyClassBytes", byte[].class);
@@ -223,8 +223,8 @@ public class MethodTracer {
 
                     byte[] sourceBytes= IOUtils.toByteArray(inputStream);
 
-                    ArrayList<String> aopVisitors = MatrixPlugin.mMatrixExtension.getAopVisitors();
-                    if(aopVisitors!=null&&!aopVisitors.isEmpty()){
+                    String[] aopVisitors = MatrixPlugin.mMatrixExtension.aopVisitors;
+                    if(aopVisitors!=null&&aopVisitors.length>0){
                         for(String aopClassName:aopVisitors){
                             Class<?> aopClass = classLoader.loadClass(aopClassName);
                             Method modifyClassBytesMethod = aopClass.getMethod("modifyClassBytes", byte[].class);
