@@ -142,7 +142,7 @@ public class MethodTracer {
                 is = new FileInputStream(classFile);
                 byte[] sourceBytes= IOUtils.toByteArray(is);
 
-                if (MethodCollector.isNeedTraceFile(classFile.getName())) {
+                if (MethodCollector.isNeedTraceFile(classFile.getName())&&MatrixPlugin.mMatrixExtension.isAopSrc) {
 
                     String[] aopVisitors = MatrixPlugin.mMatrixExtension.aopVisitors;
                     if(aopVisitors!=null&&aopVisitors.length>0){
@@ -218,7 +218,7 @@ public class MethodTracer {
                     continue;
                 }
 
-                if (MethodCollector.isNeedTraceFile(zipEntryName)) {
+                if (MethodCollector.isNeedTraceFile(zipEntryName)&&MatrixPlugin.mMatrixExtension.isAopJar) {
                     InputStream inputStream = zipFile.getInputStream(zipEntry);
 
                     byte[] sourceBytes= IOUtils.toByteArray(inputStream);
